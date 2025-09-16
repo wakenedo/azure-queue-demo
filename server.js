@@ -1,15 +1,16 @@
-// server.js
 import express from "express";
 import { QueueClient } from "@azure/storage-queue";
 import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config(); // carrega variáveis do .env
 
 const app = express();
-app.use(cors()); // libera acesso para seu frontend
+app.use(cors()); // libera acesso do frontend
 app.use(express.json());
 
-const connectionString =
-  "DefaultEndpointsProtocol=https;AccountName=stocn2;AccountKey=dwy/Hdrjn+a/0CrqO8JIe0nd2Yh4bcIb9kZwWo6cTRGB8G/xt1rzjxalOayj0pUQUeg3QQzCJHas+AStXnvUWQ==;EndpointSuffix=core.windows.net";
-const queueName = "demo-queue";
+const connectionString = process.env.AZURE_CONNECTION_STRING;
+const queueName = process.env.AZURE_QUEUE_NAME;
 const queueClient = new QueueClient(connectionString, queueName);
 
 // Enviar mensagem
